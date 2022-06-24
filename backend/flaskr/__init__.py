@@ -176,7 +176,7 @@ def create_app(test_config=None):
         try:
             questions = Question.query.filter(Question.category == category_id).all()
             formated_questions = [question.format() for question in questions]
-            return jsonify({
+            return jsonify({    
                 'success':True,
                 'questions': formated_questions[start:end],
                 'total_questions': len(formated_questions),
@@ -210,7 +210,6 @@ def create_app(test_config=None):
             question = random.choice(questions) 
             return jsonify({
                 'success':True,
-                # 'questions': [q.format() for q in questions]
                 'question':question.format()
             })
         except:

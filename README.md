@@ -47,3 +47,255 @@ Pay special attention to what data the frontend is expecting from each API respo
 By making notes ahead of time, you will practice the core skill of being able to read and understand code and will have a simple plan to follow to build out the endpoints of your backend API.
 
 > View the [Frontend README](./frontend/README.md) for more details.
+
+## API Documentation
+
+### Getting Started
+
+- Base URL: currently, the API is not hosted. so it's only accessible locally through `http://localhost:5000/`
+- Authentication: This API need no authentication or key for now.
+
+### Endpoints
+
+`GET '/categories'`
+
+- Fetches a dictionary containing all categories
+- Request Arguments: None
+- Returns: An object with a single key, `categories`, that contains an object of `id: category_string` key: value pairs.
+
+```json
+{
+  "1": "Science",
+  "2": "Art",
+  "3": "Geography",
+  "4": "History",
+  "5": "Entertainment",
+  "6": "Sports"
+}
+```
+
+`GET '/questions'`
+
+- Fetches list of all questions
+- Request Arguments: None
+- Returns:a json object with the following keys: `categories` That contains all categories in key value pairs, `current_category`, `questions` which is a list containing all questions objects, `total_question`, and `success` to indicate if the call was a success.
+
+```json
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category": "Science",
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Apollo 13",
+      "category": 5,
+      "difficulty": 4,
+      "id": 2,
+      "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+    },
+    {
+      "answer": "Tom Cruise",
+      "category": 5,
+      "difficulty": 4,
+      "id": 4,
+      "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    },
+    {
+      "answer": "Lake Victoria",
+      "category": 3,
+      "difficulty": 2,
+      "id": 13,
+      "question": "What is the largest lake in Africa?"
+    },
+    {
+      "answer": "The Palace of Versailles",
+      "category": 3,
+      "difficulty": 3,
+      "id": 14,
+      "question": "In which royal palace would you find the Hall of Mirrors?"
+    }
+  ],
+  "success": true,
+  "total_questions": 18
+}
+```
+
+`DELETE '/questions/<question_id>'`
+
+- takes question id and delete the question from database if exists.
+- Request Arguments: None
+- Returns: An object with two keys, `success` and `deleted_question`
+
+```json
+{
+  "deleted_question": {
+    "answer": "Maya Angelou",
+    "category": 4,
+    "difficulty": 2,
+    "id": 5,
+    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+  },
+  "success": true
+}
+```
+
+`POST '/questions'`
+
+- Takes new question json data and add it to the database.
+- Request Arguments: json object containing `question`, `answer`, `category` and `difficulty`
+- Returns: An object with two keys, `success` and `question`
+
+```json
+{
+  "question": {
+    "answer": "Maya Angelou",
+    "category": 4,
+    "difficulty": 2,
+    "id": 26,
+    "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+  },
+  "success": true
+}
+```
+
+`POST '/questions/search'`
+
+- Takes new a search term and fetch every question that contain the term.
+- Request Arguments: json object containing a key `searchTerm`
+- Returns: An object with two keys, `success` and `questions`
+
+```json
+{
+  "questions": [
+    {
+      "answer": "Brazil",
+      "category": 6,
+      "difficulty": 3,
+      "id": 10,
+      "question": "Which is the only team to play in every soccer World Cup tournament?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    }
+  ],
+  "success": true
+}
+```
+
+`GET '/categories/<category_id>/questions'`
+
+- takes a category id and fetch all questions that belong to the category. the questions are paginated, 10 questions per page.
+- Request Arguments: `page`, an optional Integer value to specify with page do you want to fetch. default is 1
+- Returns: An object with the following key: `success`, `questions`, `total_questions` and `current_category`
+
+```json
+{
+  "current_category": "Science",
+  "questions": [
+    {
+      "answer": "The Liver",
+      "category": 1,
+      "difficulty": 4,
+      "id": 20,
+      "question": "What is the heaviest organ in the human body?"
+    },
+    {
+      "answer": "Blood",
+      "category": 1,
+      "difficulty": 4,
+      "id": 22,
+      "question": "Hematology is a branch of medicine involving the study of what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 2
+}
+```
+
+`POST '/quizzes'`
+
+- This endpoint fetch a random question.
+- Request Arguments: `quiz_category`, a category that the player select and `previous_questions`, a list containing a IDs of previous questions answered by the player.
+- Returns: An object with two keys, `success` and `question`
+
+```json
+{
+  "question": {
+    "answer": "Blood",
+    "category": 1,
+    "difficulty": 4,
+    "id": 22,
+    "question": "Hematology is a branch of medicine involving the study of what?"
+  },
+  "success": true
+}
+```
+
+### Error Handling
+
+The following errors are handled to be return as JSON object
+
+- 400: Bad request
+- 404: Not found
+- 405: Method not allowed
+- 422: Unprocessable
+
+```json
+{
+  "success": false,
+  "message": "not found",
+  "error": 404
+}
+```
