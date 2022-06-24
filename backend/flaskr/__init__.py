@@ -216,7 +216,6 @@ def create_app(test_config=None):
         except:
             abort(422)
         
-        
     """
     @TODO:
     Create error handlers for all expected errors
