@@ -12,7 +12,7 @@ QUESTIONS_PER_PAGE = 10
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    setup_db(app)
+    setup_db(app)   
 
     """
     @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
@@ -244,10 +244,10 @@ def create_app(test_config=None):
             'error': 400,
         }),400
     @app.errorhandler(500)
-    def server_error(error):
+    def server_error(error):    
         return jsonify({
             'success':False,
-            'message':'Bad request',
+            'message':'Server error',
             'error': 500,
         }),500
     @app.errorhandler(405)

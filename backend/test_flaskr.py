@@ -59,8 +59,8 @@ class TriviaTestCase(unittest.TestCase):
     TEST DELETE /questions/<question_id>
     """
     def test_delete_question(self):
-            res = self.client().delete('/questions/6')
-            question = Question.query.filter(Question.id == 5).one_or_none()
+            res = self.client().delete('/questions/2')
+            question = Question.query.filter(Question.id == 2).one_or_none()
             
             self.assertEqual(question, None)
             self.assertEqual(res.status_code, 200)
@@ -117,14 +117,14 @@ class TriviaTestCase(unittest.TestCase):
     """    
     def test_generate_quizzes(self):
         res = self.client().post('/quizzes', json={
-            "previous_questions": [1,2,3],
-            "quiz_category": {"id":2,"type": "Art"}
+            "previous_questions": [4],
+            "quiz_category": {"id":5,"type": "Entertainment"}
         })
         self.assertEqual(res.status_code, 200)
     
     def test_generate_quizzes_error(self):
-        res = self.client().post('/quizzes')
-        self.assertEqual(res.status_code, 422)
+        res = self.client().post('/quizzes', json={ 'previous_questions': [4]})
+        self.assertEqual(res.status_code, 400)
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
