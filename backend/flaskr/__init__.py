@@ -201,16 +201,18 @@ def create_app(test_config=None):
         try:
             category = data['quiz_category']
             prev_questions = data['previous_questions']
+            
             questions = []
             if not category['id']:
                 questions = Question.query.filter((~Question.id.in_(prev_questions))).all()
+               
             else:
                 questions = Question.query.filter(Question.category == category['id'] ,(~Question.id.in_(prev_questions))).all()
-            
-            question = random.choice(questions) 
+
+            question = random.choice(questions).format() if len(questions)> 0 else None  
             return jsonify({
                 'success':True,
-                'question':question.format()
+                'question': question
             })
         except:
             abort(422)
